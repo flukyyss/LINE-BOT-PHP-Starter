@@ -18,11 +18,13 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
-			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง'){
+			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง' ){
 					$messages = [
 						'type' => 'text',
 						'text' => 'หวัดดีครับ'
 					];				
+			}
+			else if ($text == 'ส่งรูปถ่าย' || $text == 'ติดต่อสอบถาม'){
 			}
 			else{
 				$messages = [
