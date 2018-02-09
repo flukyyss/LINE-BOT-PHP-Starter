@@ -18,8 +18,9 @@ if (!is_null($events['events'])) {
 
 			// Build message to reply back
 			$messages = [
+				if($text == 'hi')
 				'type' => 'text',
-				'text' => $text
+				'welcome' => $text
 			];
 
 			// Make a POST Request to Messaging API to reply to sender
