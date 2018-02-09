@@ -19,24 +19,15 @@ if (!is_null($events['events'])) {
 
 			// Build message to reply back
 			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง'){
-				int a=rand(0,1);
-				if(a==1){
-					$messages = [
-						'type' => 'text',
-						'text' => 'สวัสดีคร๊าบ'
-					];
-				}
-				else{
 					$messages = [
 						'type' => 'text',
 						'text' => 'หวัดดีครับ'
-					];
-				}
+					];				
 			}
 			else{
 				$messages = [
-				'type' => 'text',
-				'text' => 'ไม่เข้าใจคร้าบ'
+					'type' => 'text',
+					'text' => 'ไม่เข้าใจคร้าบ'
 				];
 			}
 
