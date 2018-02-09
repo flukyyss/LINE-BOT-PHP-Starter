@@ -21,14 +21,12 @@ if (!is_null($events['events'])) {
 			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง'){
 			$messages = [
 				'type' => 'text',
-				'text' => 'สวัสดีครับ'
+				'text' => 'สวัสดีครับผม'
 			];
 			}
 		}
-		if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
-			// Get sticker sent
-			$packageId = $event['message']['packageId'];
-			$stickerId = $event['message']['stickerId'];
+		else if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
+			
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
