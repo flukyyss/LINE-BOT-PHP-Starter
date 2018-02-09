@@ -1,57 +1,119 @@
 <?php
-$access_token = '7WCR1g4vUFAz1alqIcB7fM39A1rEymn5Q6HBm8UtUDNKjXaLggm1IBzxbhCf23whER9ml7RAmTUjElHzAPzBVtVwzfXjin25UzjsJKz75Tf2Uj2fA3n0F8vNHslZISji1Zq5ND2VgHBLJv+eRpPFvgdB04t89/1O/w1cDnyilFU=';
 
-// Get POST body content
-$content = file_get_contents('php://input');
-// Parse JSON
-$events = json_decode($content, true);
-// Validate parsed JSON data
-if (!is_null($events['events'])) {
-	// Loop through each event
-	foreach ($events['events'] as $event) {
-		// Reply only when message sent is in 'text' format
-		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
-			// Get text sent
-			$text = $event['message']['text'];
-			// Get replyToken
-			$replyToken = $event['replyToken'];
+include ('vendor/autoload.php');
 
-			// Build message to reply back
-			if($event['message']['text'] == 'hi' || $event['message']['text'] == 'hello' || $event['message']['text'] == 'หวัดดี' || $event['message']['text'] == 'สวัสดี' || $event['message']['text'] == 'ไง'){
-			$messages = [
-				'type' => 'text',
-				'text' => 'สวัสดีครับ'
-			];
-			}
-			else if ($event['message']['text'] == 'imagemap'){
-					$messages = [
-						"type": "location",
-						"title": "my location",
-						"address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-						"latitude": 35.65910807942215,
-						"longitude": 139.70372892916203
-					];	
-			}
-			// Make a POST Request to Messaging API to reply to sender
-			$url = 'https://api.line.me/v2/bot/message/reply';
-			$data = [
-				'replyToken' => $replyToken,
-				'messages' => [$messages],
-			];
-			$post = json_encode($data);
-			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+use \LINE\LINEBot;
+use \LINE\LINEBot\HTTPClient;
+use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use \LINE\LINEBot\MessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			$result = curl_exec($ch);
-			curl_close($ch);
+class BOT_API extends LINEBot {
+	
+    /* ====================================================================================
+     * Variable
+     * ==================================================================================== */
+	
+    private $httpClient     = null;
+    private $endpointBase   = null;
+    private $channelSecret  = null;
+	
+    public $content         = null;
+    public $events          = null;
+	
+    public $isEvents        = false;
+    public $isText          = false;
+    public $isImage         = false;
+    public $isSticker       = false;
+	
+    public $text            = null;
+    public $replyToken      = null;
+    public $source          = null;
+    public $message         = null;
+    public $timestamp       = null;
+	
+    public $response        = null;
+	
+    /* ====================================================================================
+     * Custom
+     * ==================================================================================== */
+	
+    public function __construct ($channelSecret, $access_token) {
+		
+        $this->httpClient     = new CurlHTTPClient($access_token);
+        $this->channelSecret  = $channelSecret;
+        $this->endpointBase   = LINEBot::DEFAULT_ENDPOINT_BASE;
+		
+        $this->content        = file_get_contents('php://input');
+        $events               = json_decode($this->content, true);
+		
+        if (!empty($events['events'])) {
+			
+            $this->isEvents = true;
+            $this->events   = $events['events'];
+			
+            foreach ($events['events'] as $event) {
+				
+                $this->replyToken = $event['replyToken'];
+                $this->source     = (object) $event['source'];
+                $this->message    = (object) $event['message'];
+                $this->timestamp  = $event['timestamp'];
+				
+                if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
+                    $this->isText = true;
+                    $this->text   = $event['message']['text'];
+                }
+				
+                if ($event['type'] == 'message' && $event['message']['type'] == 'image') {
+                    $this->isImage = true;
+                }
+				
+                if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
+                    $this->isSticker = true;
+                }
+				
+            }
 
-			echo $result . "\r\n";
-		}
-	}
+        }
+		
+        parent::__construct($this->httpClient, [ 'channelSecret' => $channelSecret ]);
+		
+    }
+	
+    public function sendMessageNew ($to = null, $message = null) {
+        $messageBuilder = new TextMessageBuilder($message);
+        $this->response = $this->httpClient->post($this->endpointBase . '/v2/bot/message/push', [
+            'to' => $to,
+            // 'toChannel' => 'Channel ID,
+            'messages'  => $messageBuilder->buildMessage()
+        ]);
+    }
+	
+    public function replyMessageNew ($replyToken = null, $message = null) {
+        $messageBuilder = new TextMessageBuilder($message);
+        $this->response = $this->httpClient->post($this->endpointBase . '/v2/bot/message/reply', [
+            'replyToken' => $replyToken,
+            'messages'   => $messageBuilder->buildMessage(),
+        ]);
+    }
+	
+    public function isSuccess () {
+        return !empty($this->response->isSucceeded()) ? true : false;
+    }
+	
+    public static function verify ($access_token) {
+		
+        $ch = curl_init('https://api.line.me/v1/oauth/verify');
+		
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Authorization: Bearer ' . $access_token ]);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($result);
+		
+    }
+	
 }
-echo "OK";
