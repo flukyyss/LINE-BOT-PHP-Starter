@@ -25,7 +25,7 @@ if (!is_null($events['events'])) {
 			];
 			}
 		}
-		/*else if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
+		else if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
 			
 			// Get replyToken
 			$replyToken = $event['replyToken'];
@@ -37,7 +37,7 @@ if (!is_null($events['events'])) {
 				'text' => 'sticker'
 			];
 			}
-		}*/
+		}
 		
 			
 			// Make a POST Request to Messaging API to reply to sender
