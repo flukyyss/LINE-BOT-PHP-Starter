@@ -20,7 +20,7 @@ if (!is_null($events['events'])) {
 			if($event['message']['text'] == 'hi'){
 			$messages = [
 				'type' => 'text',
-				'text' => 'welcome'
+				'text' => 'สวัสดีครับ'
 			];
 			}
 
