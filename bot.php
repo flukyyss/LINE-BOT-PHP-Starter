@@ -9,15 +9,14 @@ $events = json_decode($content, true);
 if (!is_null($events['events'])) {
 	// Loop through each event
 	foreach ($events['events'] as $event) {
-		// Reply only when message sent is in 'text' format
-		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
-			$text = $event['message']['text'];
+			$message = $event['message'];
+		// Reply only when message sent is in 'text' format
+		if ($message['type'] == 'text') {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
-
 			// Build message to reply back
-			if($text == 'hi' || $text == 'hello' || $event['message']['text'] == 'หวัดดี' || $event['message']['text'] == 'สวัสดี' || $event['message']['text'] == 'ไง'){
+			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง'){
 			$messages = [
 				'type' => 'text',
 				'text' => 'สวัสดีครับ'
@@ -44,6 +43,8 @@ if (!is_null($events['events'])) {
 
 			echo $result . "\r\n";
 		}
+		
+		
 	}
 }
 echo "OK";
