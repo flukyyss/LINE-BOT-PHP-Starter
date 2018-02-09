@@ -17,13 +17,19 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
-			if($event['message']['text'] == 'hi'){
+			if($event['message']['text'] == 'hi' || $event['message']['text'] == 'hello' || $event['message']['text'] == 'หวัดดี' || $event['message']['text'] == 'สวัสดี' || $event['message']['text'] == 'ไง'){
 			$messages = [
 				'type' => 'text',
 				'text' => 'สวัสดีครับ'
 			];
 			}
-
+			else if ($event['message']['text'] == 'imagemap'){
+					$messages = [
+						'type' => 'imagemap',
+						'baseUrl' => 'https://google.com'
+						'altText' => "This is an imagemap"
+						
+			}
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
 			$data = [
