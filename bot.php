@@ -23,13 +23,13 @@ if (!is_null($events['events'])) {
 				'text' => 'สวัสดีครับ'
 			];
 			}
-			else if ($event['message']['text'] == 'imagemap'){
+			/*else if ($event['message']['text'] == 'imagemap'){
 					$messages = [
 						'type' => 'imagemap',
 						'baseUrl' => 'https://google.com'
 						'altText' => "This is an imagemap"
 					];	
-			}
+			}*/
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
 			$data = [
