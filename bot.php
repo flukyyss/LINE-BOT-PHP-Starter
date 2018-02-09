@@ -24,6 +24,12 @@ if (!is_null($events['events'])) {
 				'text' => 'สวัสดีครับผม'
 			];
 			}
+			
+			else{
+				$messages = [
+				'type' => 'text',
+				'text' => 'ไม่เข้าใจคร้าบ'
+			}
 
 			
 		}
@@ -50,7 +56,7 @@ if (!is_null($events['events'])) {
 	
 			$messages = [
 				'type' => 'text',
-				'text' => 'กรุณารอการตอบรับสักครู่'
+				'text' => 'อัพโหลดสำเร็จ กรุณารอการตอบรับสักครู่'
 
 			];
 			
