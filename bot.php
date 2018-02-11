@@ -24,6 +24,12 @@ if (!is_null($events['events'])) {
 						'text' => 'หวัดดีครับ'
 					];				
 			}
+			else if ($text == '1' || $text == '2'){
+				$messages = [
+					'type' => 'text',
+					'text' => (int)$event['message']['text']+1;
+				];
+			}
 			else if ($text == 'ส่งรูปถ่าย' || $text == 'ติดต่อสอบถาม'){
 			}
 			else{
