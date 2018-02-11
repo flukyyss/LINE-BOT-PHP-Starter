@@ -27,7 +27,7 @@ if (!is_null($events['events'])) {
 			else if ($text == '1' || $text == '2'){
 				$messages = [
 					'type' => 'text',
-					'text' => (int)$event['message']['text']+1;
+					'text' => $event['message']['text'];
 				];
 			}
 			else if ($text == 'ส่งรูปถ่าย' || $text == 'ติดต่อสอบถาม'){
