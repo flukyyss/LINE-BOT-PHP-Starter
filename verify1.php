@@ -49,8 +49,9 @@ if (!is_null($events['events'])) {
 			// Build message to reply back
 	
 			$messages = [
-				'type' => 'text',
-				'text' => 'อัพโหลดสำเร็จ กรุณารอการตอบรับสักครู่'
+				'type' => 'image',
+				'originalContentUrl' => "https://www.dropbox.com/s/329ovg0kmeml9dl/autorooper_02.jpg",
+				'previewImageUrl' => "https://www.dropbox.com/s/5fp5bkt06ssj3di/autorooper_03.jpg"
 
 			];
 			
