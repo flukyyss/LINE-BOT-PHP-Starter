@@ -27,11 +27,10 @@ if (!is_null($events['events'])) {
 			else if ($text == '1' || $text == '2'){
 				$messages = [
 					'type' => 'text',
-					'text' => $event['message']['text'];
+					'text' => 'no way'
 				];
 			}
-			else if ($text == 'ส่งรูปถ่าย' || $text == 'ติดต่อสอบถาม'){
-			}
+
 			else{
 				$messages = [
 					'type' => 'text',
@@ -41,34 +40,7 @@ if (!is_null($events['events'])) {
 
 			
 		}
-		else if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
-			
-			// Get replyToken
-			$replyToken = $event['replyToken'];
-
-			// Build message to reply back
 	
-			$messages = [
-				'type' => 'sticker',
-				"packageId" => "1",
-				"stickerId" => "1"
-			];
-			
-		}
-			else if ($event['type'] == 'message' && $event['message']['type'] == 'image') {
-			
-			// Get replyToken
-			$replyToken = $event['replyToken'];
-
-			// Build message to reply back
-	
-			$messages = [
-				'type' => 'text',
-				'text' => 'อัพโหลดสำเร็จ กรุณารอการตอบรับสักครู่'
-
-			];
-			
-		}
 		
 			
 			// Make a POST Request to Messaging API to reply to sender
