@@ -44,7 +44,10 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
-	
+			$messages = [
+					'type' => 'text',
+					'text' => "ลอง"
+				];
 			$messages = [
 				'type' => 'image',
 				'originalContentUrl' => "https://www.dropbox.com/s/5fp5bkt06ssj3di/autorooper_03.jpg?raw=1",
