@@ -32,9 +32,10 @@ if (!is_null($events['events'])) {
 			}
 
 			else{
+				$text = $event['message']['text'];
 				$messages = [
 					'type' => 'text',
-					'text' => 'ไม่เข้าใจคร้าบ'
+					'text' => 'ไม่เข้าใจคำว่า' + $text + 'ครับผม รบกวนใช้เมนูด้านล่างในการดำเนินการ'
 				];
 			}
 
