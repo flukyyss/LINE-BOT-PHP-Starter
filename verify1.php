@@ -9,7 +9,6 @@ $events = json_decode($content, true);
 if (!is_null($events['events'])) {
 	// Loop through each event
 	foreach ($events['events'] as $event) {
-		
 		// Reply only when message sent is in 'text' format
 		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
@@ -18,59 +17,11 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
-			if($text == 'hi' || $text == 'hello' || $text == 'หวัดดี' || $text == 'สวัสดี' || $text == 'ไง' ){
-					$messages = [
-						'type' => 'text',
-						'text' => 'หวัดดีครับ'
-					];				
-			}
-			else if ($text == '1' || $text == '2'){
-				$messages = [
-					'type' => 'text',
-					'text' => $event['message']['text'];
-				];
-			}
-			else if ($text == 'ส่งรูปถ่าย' || $text == 'ติดต่อสอบถาม'){
-			}
-			else{
-				$messages = [
-					'type' => 'text',
-					'text' => 'ไม่เข้าใจคร้าบ'
-				];
-			}
-
-			
-		}
-		else if ($event['type'] == 'message' && $event['message']['type'] == 'sticker') {
-			
-			// Get replyToken
-			$replyToken = $event['replyToken'];
-
-			// Build message to reply back
-	
-			$messages = [
-				'type' => 'sticker',
-				"packageId" => "1",
-				"stickerId" => "1"
-			];
-			
-		}
-			else if ($event['type'] == 'message' && $event['message']['type'] == 'image') {
-			
-			// Get replyToken
-			$replyToken = $event['replyToken'];
-
-			// Build message to reply back
-	
 			$messages = [
 				'type' => 'text',
-				'text' => 'อัพโหลดสำเร็จ กรุณารอการตอบรับสักครู่'
-
+				'text' => $text
 			];
-			
-		}
-		
-			
+
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
 			$data = [
@@ -90,7 +41,7 @@ if (!is_null($events['events'])) {
 			curl_close($ch);
 
 			echo $result . "\r\n";
-		
+		}
 	}
 }
 echo "OK";
