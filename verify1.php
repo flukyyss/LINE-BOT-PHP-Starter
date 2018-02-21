@@ -40,6 +40,20 @@ if (!is_null($events['events'])) {
 
 			
 		}
+		else if ($event['type'] == 'message' && $event['message']['type'] == 'image') {
+			
+			// Get replyToken
+			$replyToken = $event['replyToken'];
+
+			// Build message to reply back
+	
+			$messages = [
+				'type' => 'text',
+				'text' => 'อัพโหลดสำเร็จ กรุณารอการตอบรับสักครู่'
+
+			];
+			
+		}
 	
 		
 			
