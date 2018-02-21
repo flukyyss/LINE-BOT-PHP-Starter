@@ -50,8 +50,8 @@ if (!is_null($events['events'])) {
 	
 			$messages = [
 				'type' => 'image',
-				'originalContentUrl' => "https://www.dropbox.com/s/329ovg0kmeml9dl/autorooper_02.jpg?raw=1",
-				'previewImageUrl' => "https://www.dropbox.com/s/5fp5bkt06ssj3di/autorooper_03.jpg?raw=1"
+				'originalContentUrl' => "https://www.dropbox.com/s/5fp5bkt06ssj3di/autorooper_03.jpg?dl=0",
+				'previewImageUrl' => "https://www.dropbox.com/s/5fp5bkt06ssj3di/autorooper_03.jpg?dl=0"
 
 			];
 			
